@@ -1,98 +1,165 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <SafeAreaView style={styles.container}>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>My Profile</Text>
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+      {/* Profile Content */}
+      <View style={styles.content}>
+
+        {/* Profile Image */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            }}
+            style={styles.profileImage}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        <View style={styles.line} />
+
+        {/* Name */}
+        <Text style={styles.label}>Name</Text>
+        <Text style={styles.value}>Diluka</Text>
+
+        {/* Email */}
+        <Text style={styles.label}>Email</Text>
+
+        <View style={styles.row}>
+          <Text style={styles.icon}>✉</Text>
+          <Text style={styles.value}>diluka.w@nsbm.ac.lk</Text>
+        </View>
+
+        {/* Points */}
+        <Text style={styles.label}>Points</Text>
+
+        <View style={styles.row}>
+          <Text style={styles.star}>★</Text>
+          <Text style={styles.value}>0</Text>
+        </View>
+
+      </View>
+
+      {/* Add Button */}
+      <TouchableOpacity style={styles.addButton}>
+        <Text style={styles.plus}>+</Text>
+      </TouchableOpacity>
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#f5f5f5",
   },
-  safeArea: {
+
+  header: {
+    height: 55,
+    backgroundColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  headerText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  content: {
+    padding: 18,
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+
+  imageContainer: {
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 5,
   },
-  title: {
-    textAlign: 'center',
+
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
-  code: {
-    textTransform: 'uppercase',
+
+  line: {
+    height: 2,
+    backgroundColor: "#222",
+    marginTop: 10,
+    marginBottom: 12,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  label: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#222",
+    marginTop: 12,
+    marginBottom: 5,
+  },
+
+  value: {
+    fontSize: 14,
+    color: "#444",
+  },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 2,
+  },
+
+  icon: {
+    fontSize: 15,
+    marginRight: 8,
+    color: "#000",
+  },
+
+  star: {
+    fontSize: 18,
+    marginRight: 8,
+    color: "#000",
+  },
+
+  addButton: {
+    position: "absolute",
+    right: 20,
+    bottom: 20,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+  },
+
+  plus: {
+    color: "#fff",
+    fontSize: 28,
+    fontWeight: "300",
   },
 });
